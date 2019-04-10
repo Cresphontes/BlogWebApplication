@@ -1,0 +1,197 @@
+﻿
+@using Blog.Models.Entities
+@model Blog.Models.ViewModels.ArticleViewModel
+
+@{
+    ViewData["Title"] = "CreateArticle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    List<Category> categories = ViewBag.Categories;
+}
+
+@section styles{
+
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/select2/select2.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/bootstrap-timepicker/css/bootstrap-timepicker.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/dropzone/css/basic.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/dropzone/css/dropzone.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/bootstrap-markdown/css/bootstrap-markdown.min.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/summernote/summernote.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/summernote/summernote-bs3.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/codemirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/codemirror/theme/monokai.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.css" />
+}
+
+    <div class="row">
+        <div class="col-md-8">
+            <form style="margin-left:20%" id="formArticle" asp-controller="Admin" asp-action="CreateArticle" asp-antiforgery="true" method="post" enctype="multipart/form-data">
+                <h2 style="font-size:60px;margin-left:18%">Makale Oluştur</h2>
+                <h2 class="text text-success" style="font-size:30px;margin-left:17%">@TempData["Message"]</h2>
+
+                <div  class="form-group">
+                    <div class="col-md-10">
+                        <label asp-for="Title">Başlık</label>
+                        <input asp-for="Title" id="title" class="form-control" data-plugin-maxlength maxlength="100" />
+                        <span asp-validation-for="Title" class="text text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label asp-for="Category">Kategori</label>
+                        <select asp-for="Category" id="category" data-plugin-selectTwo class="form-control populate">
+                            @foreach (var item in categories)
+                            {
+                                <option value="@item.Name">@item.Name</option>
+                            }
+
+                        </select>
+                        <span asp-validation-for="Category" class="text text-danger"></span>
+                    </div>
+                </div>
+
+                <div  class="form-group">
+                    <div class="col-md-10">
+                        <label asp-for="PostedFile">Resim Yükle</label>
+                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                            <div class="input-append">
+                                <div style="width:66%" class="uneditable-input">
+                                    <span class="fileupload-preview"></span>
+                                </div>
+                                <span class="btn btn-default btn-file">
+                                    <span>Select file</span>
+                                    <input type="file" asp-for="PostedFile" multiple="multiple" />
+                                    <span asp-validation-for="PostedFile" class="text text-danger"></span>
+                                </span>
+                                <a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <label asp-for="Content">İçerik</label>
+                        <textarea asp-for="Content" id="content" class="form-control" rows="3"  ></textarea>
+                        <span asp-validation-for="Content" class="text text-danger"></span>
+                    </div>
+                </div>
+
+
+                <br /><br />
+                <button style="width:500px;margin-left:9%" type="submit" class="btn btn-lg btn-primary">Ekle</button>
+
+            </form>
+        </div>
+
+
+
+        <div class="col-md-4">
+            <div style="margin-left:20%">
+
+            
+            <h2 style="font-size:40px";>Kategori Oluştur</h2>
+            <h2 id="message-success" class="text text-success" style="font-size:30px"></h2>
+            <h2 id="message-fail" class="text text-danger" style="font-size:30px"></h2>
+
+            <div class="form-group">
+                <div class="col-md-8">
+                    <label>Kategori Adı</label>
+                    <input id="category-insert" class="form-control" data-plugin-maxlength maxlength="100"/>
+                </div>
+            </div>
+            <br/><br/>
+            <button id="btn-cat" style="width:200px;margin-left:8%" class="btn btn-lg btn-primary">Ekle</button>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+@section scripts{
+    <script src="/Themes/Admin-panel/assets/vendor/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/select2/select2.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/jquery-maskedinput/jquery.maskedinput.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/fuelux/js/spinner.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/dropzone/dropzone.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/bootstrap-markdown/js/markdown.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/bootstrap-markdown/js/to-markdown.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/bootstrap-markdown/js/bootstrap-markdown.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/codemirror/lib/codemirror.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/codemirror/addon/selection/active-line.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/codemirror/mode/javascript/javascript.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/codemirror/mode/xml/xml.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/codemirror/mode/css/css.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/summernote/summernote.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/bootstrap-maxlength/bootstrap-maxlength.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/ios7-switch/ios7-switch.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/jquery-autosize/jquery.autosize.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/bootstrap-fileupload/bootstrap-fileupload.min.js"></script>
+
+    <script>
+
+        $(function() {
+
+
+            $("#btn-cat").click(function() {
+
+                var model = {
+                    name: $("#category-insert").val()
+                };
+
+                $.ajax({
+                    method: "POST",
+                    url: "/Admin/CreateCategory/",
+                    data: model,
+                    type: "json",
+                    success: function (response) {
+                console.log(response)
+                        if (response.success) {
+                            $("#message-success").text(response.message).show();
+                            $("#message-fail").hide();
+
+                            var cat = response.data;
+                            $("#category").append("<option value="+cat+">"+cat+"</option>");
+
+                        } else {
+
+                            $("#message-fail").text(response.message).show();
+                            $("#message-success").hide();
+
+                        }
+
+                        
+                    }
+                })
+
+            });
+
+        });
+
+
+    </script>
+
+}
+
+
+
+

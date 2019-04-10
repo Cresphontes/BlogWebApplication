@@ -1,0 +1,96 @@
+﻿@model Blog.Models.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+
+    <meta charset="UTF-8">
+
+    <title>Login</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Shadows+Into+Light" rel="stylesheet" type="text/css">
+
+
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/magnific-popup/magnific-popup.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/bootstrap-datepicker/css/datepicker3.css" />
+
+
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/stylesheets/theme.css" />
+
+
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/stylesheets/skins/default.css" />
+
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/stylesheets/theme-custom.css">
+
+    <script src="/Themes/Admin-panel/assets/vendor/modernizr/modernizr.js"></script>
+    
+    
+</head>
+<body>
+<div style="width:25%;margin-left:35%;margin-top: 15%">
+
+    <h1 style="margin-left:30%;font-size: 50px">ADMİN GİRİŞ </h1>
+    <br/>
+
+    <form class="form-horizontal" asp-controller="Account" asp-action="Login" asp-antiforgery="true" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="col-sm-4 control-label">Kullanıcı Adı: </label>
+                <div class="col-sm-8">
+                    <input asp-for="UserName" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserName" class="col-sm-4 control-label">Şifre: </label>
+                <div class="col-sm-8">
+                    <input asp-for="Password" type="password" class="form-control">
+                </div>
+            </div>
+        <div style="margin-left:9%" class="form-group row">
+            <label class="control-label col-md-3" asp-for="RememberMe">Beni Hatırla</label>
+            <div class="col-md-2">
+                <input style="width:25px;height:25px" class="form-control" type="checkbox" asp-for="RememberMe" />
+            </div>
+        </div>
+
+            <div style="padding-top:20px;float:right">
+                <a asp-action="ForgetPassword" asp-controller="Account" class="btn btn-warning">Şifremi Unuttum</a>
+                <button type="submit" class="btn btn-success">Giriş</button>
+
+            </div>
+
+
+    </form>
+
+
+
+    </div>
+
+
+    <script src="/Themes/Admin-panel/assets/vendor/jquery/jquery.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/nanoscroller/nanoscroller.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/magnific-popup/magnific-popup.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/jquery-placeholder/jquery.placeholder.js"></script>
+
+    <script src="/Themes/Admin-panel/assets/javascripts/theme.js"></script>
+
+
+    <script src="/Themes/Admin-panel/assets/javascripts/theme.custom.js"></script>
+    <script src="/Themes/Admin-panel/assets/javascripts/theme.init.js"></script>
+</body>
+</html>

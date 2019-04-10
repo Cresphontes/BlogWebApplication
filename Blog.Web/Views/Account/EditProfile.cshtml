@@ -1,0 +1,94 @@
+﻿@using Blog.Models.ViewModels
+@model Blog.Models.ViewModels.EditProfileViewModel
+@{
+    ViewData["Title"] = "EditProfile";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+
+    <h2 id="message-fail" class="text text-danger" style="font-size:30px;margin-left:32%"></h2>
+    <h2 id="message-success" class="text text-success" style="font-size:30px;margin-left:32%"></h2>
+
+    <div style="margin-left:25%;margin-top:10%" class="col-md-6">
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-3 control-label" for="inputDefault">İsim</label>
+            <div class="col-md-6">
+                <input asp-for="Name" id="name" type="text" class="form-control">
+                <span id="validation-name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Surname" class="col-md-3 control-label" for="inputDefault">Soyisim</label>
+            <div class="col-md-6">
+                <input asp-for="Surname" id="surname" type="text" class="form-control">
+                <span id="validation-surname" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="col-md-3 control-label" for="inputDefault">Email</label>
+            <div class="col-md-6">
+                <input asp-for="Email" id="email" type="text" class="form-control">
+                <span id="validation-email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PhoneNumber" class="col-md-3 control-label" for="inputDefault">Telefon</label>
+            <div class="col-md-6">
+                <input asp-for="PhoneNumber" id="phone" type="text" class="form-control">
+                <span id="validation-phone" class="text-danger"></span>
+
+            </div>
+        </div>
+
+        <a style="width:300px;margin-left:20%;margin-top:5%" id="btn-pro" class="btn btn-warning" href="#">Profili Güncelle</a>
+    </div>
+
+
+</div>
+
+@section scripts{
+
+    <script>
+        $(function() {
+
+
+            $("#btn-pro").click(function() {
+                
+              
+                var model =
+                {
+                    name:$("#name").val(),
+                    surname: $("#surname").val(),
+                    email: $("#email").val(),
+                    phoneNumber: $("#phone").val(),
+                }
+           
+                $.ajax({
+                    method: "POST",
+                    url: "/Account/EditProfile/",
+                    data: model,
+                    success: function (response) {
+
+                        console.log(response);
+                        if (response.success) {
+                            $("#message-success").text(response.message);
+                            
+                        } else {
+                            $("#message-fail").text(response.message);
+                            
+                        }
+                    }
+                })
+            })
+
+        })
+        
+
+    </script>
+
+}
+
+
+
+

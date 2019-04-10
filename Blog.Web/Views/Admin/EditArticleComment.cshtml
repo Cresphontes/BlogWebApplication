@@ -1,0 +1,100 @@
+﻿@model List<Blog.Models.ViewModels.CommentViewModel>
+@{
+    ViewData["Title"] = "EditArticleComment";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section styles{
+
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/select2/select2.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+}
+
+    <section class="body">
+
+
+
+        <div class="inner-wrapper">
+
+            <section role="main" class="content-body">
+                <h2 style="font-size:40px;padding-bottom: 75px">@TempData["Title"]</h2>
+                <section class="panel">
+
+                    <div class="panel-body">
+
+
+                        <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+                            <thead>
+                                <tr>
+
+                                    <th>Yorum Sahibi</th>
+                                    <th>Email</th>
+                                    <th>İçerik</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr class="tr">
+
+                                        <td class="owner">
+                                            @item.Name
+                                        </td>
+                                        <td class="email">@item.Email</td>
+                                        <td class="content">@item.Content</td>
+                                        <td class="actions">
+                                            <a name="@item.Id" href="#" class="btn-delete"><i style="font-size: 20px" class="fa fa-trash-o"></i></a>
+                                            
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </section>
+        </div>
+
+
+    </section>
+
+
+
+
+@section scripts{
+    <script src="/Themes/Admin-panel/assets/vendor/select2/select2.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+
+    <script src="/Themes/Admin-panel/assets/javascripts/tables/examples.datatables.editable.js"></script>
+
+
+    <script>
+
+        $(function() {
+            $(".btn-delete").click(function() {
+
+                var data = $(this).attr("name");
+               
+                $.ajax({
+                    type: "GET",
+                    url: "/Admin/DeleteComment/" + data,
+                    success: function (response) {
+                      
+                        if (response.success) {
+                            window.location.href = '@Url.Action("EditArticleComment")';
+                        }
+                    }
+
+                })
+
+            })
+
+        })
+        
+
+
+    </script>
+}

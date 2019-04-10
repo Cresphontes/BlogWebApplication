@@ -1,0 +1,133 @@
+﻿@model List<Blog.Models.ViewModels.EditArticleViewModel>
+@{
+    ViewData["Title"] = "MyArticles";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section styles{
+
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/select2/select2.css" />
+    <link rel="stylesheet" href="/Themes/Admin-panel/assets/vendor/jquery-datatables-bs3/assets/css/datatables.css" />
+}
+
+<section class="body">
+
+
+
+    <div class="inner-wrapper">
+
+        <section role="main" class="content-body">
+            <h2 style="font-size:60px;margin-left:35%;padding-bottom: 75px">MAKALELER</h2>
+            <section class="panel">
+
+                <div class="panel-body">
+
+
+                    <table class="table table-bordered table-striped mb-none" id="datatable-editable">
+                        <thead>
+                            <tr>
+
+                                <th>Başlık</th>
+                                <th>Kategori</th>
+                                <th>Oluşturulma Zamanı</th>
+                                <th>Edit/Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+
+                                <tr class="tr">
+
+                                    <td class="title">
+                                        @item.Title
+                                    </td>
+                                    <td class="category">@item.Category</td>
+                                    <td class="existingTime">@item.ExistingTime</td>
+                                    <td class="actions">
+                                        <a name="@item.Id" href="#" class=" btn-save hidden on-editing save-row"><i style="font-size: 20px" class="fa fa-save"></i></a>
+                                        <a name="@item.Id" href="#" class=" btn-cancel hidden on-editing cancel-row"><i style="font-size: 20px" class="fa fa-times"></i></a>
+                                        <a name="@item.Id" href="#" class=" btn-edit on-default edit-row"><i style="font-size: 20px" class="fa fa-pencil"></i></a>
+                                        <a name="@item.Id" href="#" class="btn-delete"><i style="font-size: 20px" class="fa fa-trash-o"></i></a>
+                                        <a style="color:white;float:right;margin-left:10px" name="@item.Id" asp-route-id="@item.Id" asp-action="EditArticleComment" asp-controller="Admin" class="btn btn-info">Yorumlar</a>
+                                        <a style="color:white;float:right" name="@item.Id" asp-route-id="@item.Id" asp-action="EditArticleContent" asp-controller="Admin" class="btn btn-primary">İçerik Değiştir</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </section>
+    </div>
+
+
+</section>
+
+
+@section scripts{
+    <script src="/Themes/Admin-panel/assets/vendor/select2/select2.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/jquery-datatables/media/js/jquery.dataTables.js"></script>
+    <script src="/Themes/Admin-panel/assets/vendor/jquery-datatables-bs3/assets/js/datatables.js"></script>
+
+    <script src="/Themes/Admin-panel/assets/javascripts/tables/examples.datatables.editable.js"></script>
+
+
+    <script>
+
+        var satir = null;
+        $(function() {
+
+
+            $(".btn-save").click(function () {
+
+                satir = $(".input-block");
+
+                var title = $(satir)[0].value;
+                var category = $(satir)[1].value;
+                var existingTime = $(satir)[2].value;
+
+                var data = {
+
+                    Id: $(this).attr("name"),
+                    Title: title,
+                    Category: category,
+                    ExistingTime: existingTime,
+                }
+
+                $.ajax({
+
+                    method: "POST",
+                    url: "/Admin/EditArticle",
+                    dataType: "Json",
+                    data: data,
+                    success: function () {
+
+                    }
+
+                })
+
+            })
+
+            $(".btn-delete").click(function() {
+
+                var data = $(this).attr("name");
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Admin/DeleteArticle/"+data,
+                    success: function(data) {
+                       
+                        if (data.success) {
+                            window.location.href = '@Url.Action("MyArticles")';
+                        }
+                    }
+
+                })
+
+            })
+
+        })
+
+    </script>
+}
